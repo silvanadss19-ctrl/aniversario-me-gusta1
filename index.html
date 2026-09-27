@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feliz aniversário, Me Gusta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    --lilac:#a78bfa; --lilac-deep:#7c6fe0; --blue:#5b8def; --blue-deep:#3d5fcc;
+    --bg-deep:#150f2e; --bg-deep2:#1c1440; --paper:#f6f3fb; --ink:#2a2550; --ink-soft:#5b5480;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --serif: 'Lora', Georgia, 'Times New Roman', serif;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px); scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg-deep); color:var(--paper); font-family:var(--serif); overflow-x:hidden;}
+  img,svg{max-width:100%;}
+
+  /* ---------- HERO / TERMINAL ---------- */
+  .hero{
+    min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:8vh 5vw; text-align:center; position:relative;
+    background:
+      radial-gradient(60% 50% at 20% 15%, rgba(167,139,250,.35), transparent 60%),
+      radial-gradient(55% 45% at 85% 80%, rgba(91,141,239,.35), transparent 60%),
+      linear-gradient(180deg, var(--bg-deep), var(--bg-deep2));
+  }
+  .hero::before{
+    content:""; position:absolute; inset:0; opacity:.15; pointer-events:none;
+    background-image: linear-gradient(rgba(167,139,250,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(167,139,250,.4) 1px, transparent 1px);
+    background-size:38px 38px;
+    mask-image: radial-gradient(60% 60% at 50% 40%, #000 40%, transparent 100%);
+  }
+  .terminal{
+    position:relative; width:min(560px,92vw); background:#100b26; border:1px solid rgba(167,139,250,.35);
+    border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.02) inset;
+    text-align:left; overflow:hidden;
+  }
+  .terminal-bar{display:flex; gap:6px; padding:10px 14px; background:#170f36; border-bottom:1px solid rgba(167,139,250,.2);}
+  .dot{width:10px; height:10px; border-radius:50%;}
+  .dot:nth-child(1){background:#ff6767;} .dot:nth-child(2){background:#ffc95c;} .dot:nth-child(3){background:#6cd97e;}
+  .terminal-title{margin-left:8px; font-family:var(--mono); font-size:.72rem; color:var(--ink-soft); align-self:center; letter-spacing:.02em;}
+  .terminal-body{padding:20px 18px 24px; font-family:var(--mono); font-size:.82rem; line-height:1.85; color:#d9d3ff; min-height:210px;}
+  .terminal-body .ok{color:#8be0a1;}
+  .terminal-body .tag{color:var(--lilac);}
+  .caret{display:inline-block; width:7px; height:1em; background:var(--lilac); vertical-align:-2px; animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .open-btn{
+    margin-top:34px; font-family:var(--mono); font-size:.85rem; letter-spacing:.02em; color:var(--bg-deep);
+    background:linear-gradient(120deg,var(--lilac),var(--blue)); border:none; padding:14px 26px; border-radius:999px;
+    cursor:pointer; opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease, filter .2s;
+  }
+  .open-btn.show{opacity:1; transform:translateY(0);}
+  .open-btn:hover{filter:brightness(1.08);}
+  .hero-hint{margin-top:14px; font-family:var(--mono); font-size:.68rem; color:var(--ink-soft); opacity:0; transition:opacity .6s ease .2s;}
+  .hero-hint.show{opacity:1;}
+
+  /* ---------- MAP SECTION ---------- */
+  .map-section{
+    padding:14vh 6vw; background:linear-gradient(180deg,var(--bg-deep2), #1a1440 60%, var(--bg-deep));
+    text-align:center;
+  }
+  .map-eyebrow{font-family:var(--mono); font-size:.72rem; color:var(--lilac); letter-spacing:.04em;}
+  .map-title{font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.5rem,4vw,2.1rem); margin:.5em 0 1.3em; color:var(--paper);}
+  .map-wrap{max-width:560px; margin:0 auto;}
+  .path-line{stroke-dasharray:6 8; animation:dash 3.5s linear infinite;}
+  @keyframes dash{to{stroke-dashoffset:-140;}}
+  .pulse{animation:pulse 2.4s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1; r:5;} 50%{opacity:.4; r:8;}}
+  .map-caption{font-family:var(--mono); font-size:.78rem; color:var(--ink-soft); margin-top:18px; line-height:1.7;}
+
+  /* ---------- LETTER ---------- */
+  .letter-section{background:var(--paper); padding:12vh 6vw 16vh; position:relative;}
+  .letter-section::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:60px;
+    background:linear-gradient(180deg, var(--bg-deep), transparent);
+  }
+  .letter{max-width:620px; margin:0 auto; color:var(--ink);}
+  .letter-heading{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; color:var(--lilac-deep); text-align:center; margin-bottom:8px;}
+  .letter-to{font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.8rem,5vw,2.6rem); text-align:center; margin:0 0 3rem; background:linear-gradient(100deg,var(--lilac-deep),var(--blue-deep)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .letter p{font-size:1.06rem; line-height:1.9; margin:0 0 1.5em; max-width:66ch;}
+  .letter .closing{margin-top:3rem; font-style:italic; color:var(--lilac-deep);}
+  .letter .sign{font-family:var(--serif); font-style:italic; font-size:1.3rem; margin-top:.6rem; color:var(--blue-deep);}
+  .heart{display:inline-block;}
+
+  /* ---------- THINGS / ILLUSTRATIONS ---------- */
+  .things-section{background:var(--paper); padding:2vh 6vw 12vh; text-align:center;}
+  .things-eyebrow{font-family:var(--mono); font-size:.72rem; color:var(--lilac-deep); letter-spacing:.04em;}
+  .things-title{font-family:var(--serif); font-style:italic; font-weight:500; color:var(--ink); font-size:clamp(1.3rem,4vw,1.7rem); margin:.5em 0 2.4em;}
+  .things-grid{display:flex; flex-wrap:wrap; justify-content:center; gap:1.8rem; max-width:720px; margin:0 auto;}
+  .thing-card{width:150px;}
+  .thing-icon{width:84px; height:84px;}
+  .thing-label{font-family:var(--mono); font-size:.72rem; color:var(--ink-soft); margin-top:.9em; line-height:1.5;}
+
+  /* ---------- END / ANIMATION ---------- */
+  .end-section{
+    position:relative; overflow:hidden; min-height:60vh; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, var(--bg-deep2), var(--bg-deep));
+    padding:10vh 6vw;
+  }
+  .hearts{position:absolute; inset:0; pointer-events:none;}
+  .hearts span{
+    position:absolute; bottom:-10%; font-size:1.4rem; opacity:0;
+    animation:rise 7s ease-in infinite;
+    filter:drop-shadow(0 0 6px rgba(167,139,250,.5));
+  }
+  @keyframes rise{
+    0%{transform:translateY(0) scale(.8); opacity:0;}
+    10%{opacity:.9;}
+    85%{opacity:.5;}
+    100%{transform:translateY(-92vh) scale(1.15); opacity:0;}
+  }
+  .end-terminal{
+    position:relative; z-index:1; width:min(460px,90vw); background:#100b26;
+    border:1px solid rgba(167,139,250,.35); border-radius:12px; padding:22px 20px;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+  }
+  .end-body{font-family:var(--mono); font-size:.8rem; line-height:1.9; color:#d9d3ff; text-align:left; min-height:110px;}
+  .end-body .ok{color:#8be0a1;}
+  .end-body .tag{color:var(--lilac);}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--bg-deep); text-align:center; padding:6vh 6vw 8vh; font-family:var(--mono); font-size:.7rem; color:var(--ink-soft); letter-spacing:.03em;}
+
+  @media (max-width:480px){
+    .terminal-body{font-size:.74rem;}
+    .letter p{font-size:1rem;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .path-line, .pulse, .caret{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="terminal">
+    <div class="terminal-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="terminal-title">carta.love — bash</span>
+    </div>
+    <div class="terminal-body" id="termBody"></div>
+  </div>
+  <button class="open-btn" id="openBtn">abrir carta →</button>
+  <div class="hero-hint" id="hint">role para baixo ou toque no botão</div>
+</section>
+
+<section class="map-section">
+  <div class="map-eyebrow">// conexão</div>
+  <h2 class="map-title">De Manaus pra São Paulo,<br>sem nenhum lag.</h2>
+  <div class="map-wrap">
+    <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a78bfa"/>
+          <stop offset="1" stop-color="#5b8def"/>
+        </linearGradient>
+      </defs>
+      <path class="path-line" d="M70,60 C160,40 220,190 330,200" fill="none" stroke="url(#lg)" stroke-width="2"/>
+      <circle class="pulse" cx="70" cy="60" r="5" fill="#a78bfa"/>
+      <circle cx="70" cy="60" r="3" fill="#f6f3fb"/>
+      <text x="70" y="40" text-anchor="middle" fill="#d9d3ff" font-family="JetBrains Mono, monospace" font-size="12">Manaus</text>
+      <circle class="pulse" cx="330" cy="200" r="5" fill="#5b8def" style="animation-delay:1.2s"/>
+      <circle cx="330" cy="200" r="3" fill="#f6f3fb"/>
+      <text x="330" y="225" text-anchor="middle" fill="#d9d3ff" font-family="JetBrains Mono, monospace" font-size="12">São Paulo</text>
+    </svg>
+  </div>
+  <p class="map-caption">1900km de distância, zero de interferência no sinal.</p>
+</section>
+
+<section class="letter-section">
+  <div class="letter">
+    <p class="letter-heading">// carta.txt</p>
+    <h1 class="letter-to">Ao meu Me Gusta</h1>
+
+    <p>Hoje é seu aniversário e eu fiquei pensando em como colocar em palavras o quanto você se tornou importante para mim. Acho que, em algum momento, você deixou de ser só alguém que eu conheci e passou a ser alguém que eu não consigo mais imaginar não tendo na minha vida.</p>
+
+    <p>Eu admiro cada detalhe seu, suas manias meio TDAH, seu jeito, suas particularidades e principalmente o homem que você é. É um privilégio poder te ter por perto, mesmo que eu ainda ache que seja pouco. E independente de onde a vida coloque a gente, eu sempre vou torcer por você, de perto ou de longe.</p>
+
+    <p>Eu sou muito grata por tudo que a gente já viveu. Pelos filmes que eu quase nunca consigo terminar porque sempre durmo, pelos seus jogos em que eu só sei apertar os botões descontroladamente, pelas nossas conversas no colchão da sala, pelas nossas tentativas de dançar forró, pelas noites comendo temaki e por todos esses momentos simples que, de alguma forma, se tornaram tão especiais para mim.</p>
+
+    <p>Obrigada também por me ouvir tantas vezes. Pelas minhas conversas aleatórias, pelas minhas tristezas e até pelas minhas longas explicações sobre a minha cultura. Obrigada por ter curiosidade sobre aquilo que faz parte de mim e por me permitir dividir um pouco do meu mundo com você.</p>
+
+    <p>Eu gosto de pensar que algumas pessoas simplesmente aparecem na nossa vida e deixam tudo um pouco diferente. Você foi uma dessas pessoas para mim. Eu não imaginava que iria te encontrar e muito menos que você se tornaria alguém tão importante. E que bom que eu te encontrei.</p>
+
+    <p>Eu espero que a vida seja muito boa com você. Que você realize seus sonhos, encontre motivos para sorrir e nunca esqueça o quanto é querido. Eu quero te ver feliz, vivendo tudo aquilo que você merece. E talvez você nem saiba, mas a sua felicidade também me faz feliz.</p>
+
+    <p>Obrigada por ser você e por todos os pedacinhos da nossa história que já guardo comigo.</p>
+
+    <p class="closing">Feliz vida, Me Gusta.</p>
+    <p class="sign">Amo você hoje, amanhã e sempre. <span class="heart">❤️</span></p>
+  </div>
+</section>
+
+<section class="things-section">
+  <p class="things-eyebrow">// nosso_dicionário</p>
+  <h2 class="things-title">Os pedacinhos simples da gente.</h2>
+
+  <div class="things-grid">
+
+    <div class="thing-card">
+      <svg viewBox="0 0 120 120" class="thing-icon" style="color:var(--lilac-deep)">
+        <!-- casal dançando forró -->
+        <circle cx="42" cy="26" r="8" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M42,34 L42,58 M42,40 L26,50 M42,44 L58,36 M42,58 L30,84 M42,58 L52,86" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="78" cy="30" r="8" fill="none" stroke="currentColor" stroke-width="3" style="color:var(--blue-deep)"/>
+        <path d="M78,38 L78,60 M78,44 L94,52 M78,48 L62,42 M78,60 L66,88 M78,60 L90,86" fill="none" stroke="var(--blue-deep)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M58,36 Q68,26 62,42" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 6" opacity=".7"/>
+        <path d="M20,95 Q60,105 100,95" fill="none" stroke="currentColor" stroke-width="2" opacity=".35" stroke-linecap="round"/>
+      </svg>
+      <p class="thing-label">nossas tentativas de forró</p>
+    </div>
+
+    <div class="thing-card">
+      <svg viewBox="0 0 120 120" class="thing-icon" style="color:var(--blue-deep)">
+        <!-- temaki -->
+        <path d="M60,22 L34,92 A34,34 0 0 0 86,92 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M60,22 L34,92 M60,22 L86,92" stroke="currentColor" stroke-width="1.4" opacity=".5"/>
+        <path d="M44,52 Q60,44 76,52" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/>
+        <path d="M40,66 Q60,56 80,66" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/>
+        <circle cx="55" cy="34" r="2.2" fill="currentColor"/>
+        <circle cx="65" cy="38" r="2.2" fill="currentColor"/>
+        <circle cx="60" cy="30" r="2.2" fill="currentColor"/>
+      </svg>
+      <p class="thing-label">noites de temaki</p>
+    </div>
+
+    <div class="thing-card">
+      <svg viewBox="0 0 120 120" class="thing-icon" style="color:var(--lilac-deep)">
+        <!-- controle de jogo -->
+        <path d="M30,50 Q30,38 44,38 L76,38 Q90,38 90,50 L94,78 Q96,92 84,92 Q76,92 72,82 L68,74 L52,74 L48,82 Q44,92 36,92 Q24,92 26,78 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M44,56 L44,68 M38,62 L50,62" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="78" cy="54" r="3.4" fill="currentColor"/>
+        <circle cx="70" cy="62" r="3.4" fill="currentColor"/>
+      </svg>
+      <p class="thing-label">seus jogos, meus botões aleatórios</p>
+    </div>
+
+    <div class="thing-card">
+      <svg viewBox="0 0 120 120" class="thing-icon" style="color:var(--blue-deep)">
+        <!-- colchao/sofa da sala + zzz de filme -->
+        <path d="M22,70 L22,58 Q22,50 30,50 L90,50 Q98,50 98,58 L98,70" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18,70 L18,88 M102,70 L102,88 M18,80 L102,80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <path d="M30,50 L30,66 M90,50 L90,66" stroke="currentColor" stroke-width="2" opacity=".5"/>
+        <text x="82" y="34" font-family="JetBrains Mono, monospace" font-size="13" fill="currentColor" opacity=".8">z</text>
+        <text x="92" y="24" font-family="JetBrains Mono, monospace" font-size="10" fill="currentColor" opacity=".6">z</text>
+        <text x="98" y="16" font-family="JetBrains Mono, monospace" font-size="8" fill="currentColor" opacity=".45">z</text>
+      </svg>
+      <p class="thing-label">os filmes que eu não termino</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="end-section" id="endSection">
+  <div class="hearts" aria-hidden="true">
+    <span style="left:8%; animation-delay:.2s;">❤</span>
+    <span style="left:20%; animation-delay:1.8s;">💜</span>
+    <span style="left:33%; animation-delay:.9s;">❤</span>
+    <span style="left:47%; animation-delay:2.6s;">💙</span>
+    <span style="left:60%; animation-delay:.4s;">💜</span>
+    <span style="left:73%; animation-delay:2.1s;">❤</span>
+    <span style="left:85%; animation-delay:1.3s;">💙</span>
+    <span style="left:93%; animation-delay:3s;">❤</span>
+  </div>
+  <div class="end-terminal">
+    <div class="end-body" id="endBody"></div>
+  </div>
+</section>
+
+<footer>feito com lilás, azul e um pouquinho de código</footer>
+
+<script>
+(function(){
+  const lines = [
+    {text: "$ iniciando protocolo carta.love", cls:"tag"},
+    {text: "> localizando... Manaus, AM → São Paulo, SP"},
+    {text: "> latência: nenhuma (amor não tem lag)"},
+    {text: "> conexão estabelecida ", cls:"ok", suffix:"[OK]"},
+    {text: "> compilando sentimentos... 100%", cls:"ok"},
+    {text: "> feliz aniversário, Me Gusta ❤"},
+  ];
+  const body = document.getElementById('termBody');
+  const btn = document.getElementById('openBtn');
+  const hint = document.getElementById('hint');
+  let li = 0;
+
+  function typeLine(){
+    if(li >= lines.length){
+      btn.classList.add('show');
+      hint.classList.add('show');
+      return;
+    }
+    const line = lines[li];
+    const div = document.createElement('div');
+    if(line.cls) div.className = line.cls;
+    body.appendChild(div);
+    let ci = 0;
+    const full = line.text + (line.suffix ? ' '+line.suffix : '');
+    const speed = 18;
+    function typeChar(){
+      if(ci <= full.length){
+        div.textContent = full.slice(0, ci);
+        ci++;
+        setTimeout(typeChar, speed);
+      } else {
+        li++;
+        setTimeout(typeLine, 260);
+      }
+    }
+    typeChar();
+  }
+  const caret = document.createElement('span');
+  caret.className = 'caret';
+  body.appendChild(caret);
+  setTimeout(typeLine, 400);
+
+  btn.addEventListener('click', function(){
+    document.querySelector('.map-section').scrollIntoView({behavior:'smooth'});
+  });
+
+  // terminal final, ao entrar na tela
+  const endLines = [
+    {text: "$ carta.love --executar", cls:"tag"},
+    {text: "> lendo... 6 parágrafos, 1 vida inteira"},
+    {text: "> status: entregue com sucesso ", cls:"ok", suffix:"[OK]"},
+    {text: "> tempo de execução: para sempre"},
+  ];
+  const endBody = document.getElementById('endBody');
+  const endSection = document.getElementById('endSection');
+  let endTyped = false;
+
+  function typeEndLine(li){
+    if(li >= endLines.length) return;
+    const line = endLines[li];
+    const div = document.createElement('div');
+    if(line.cls) div.className = line.cls;
+    endBody.appendChild(div);
+    let ci = 0;
+    const full = line.text + (line.suffix ? ' '+line.suffix : '');
+    function typeChar(){
+      if(ci <= full.length){
+        div.textContent = full.slice(0, ci);
+        ci++;
+        setTimeout(typeChar, 20);
+      } else {
+        setTimeout(()=>typeEndLine(li+1), 300);
+      }
+    }
+    typeChar();
+  }
+
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting && !endTyped){
+          endTyped = true;
+          setTimeout(()=>typeEndLine(0), 300);
+        }
+      });
+    }, {threshold:0.4});
+    io.observe(endSection);
+  } else {
+    typeEndLine(0);
+  }
+})();
+</script>
+</body>
+</html>
